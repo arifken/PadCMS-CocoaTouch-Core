@@ -11,6 +11,12 @@
 #import "PCPageViewController.h"
 #import "RRColumnViewController.h"
 
+NSUInteger UIViewAutoresizingAll = UIViewAutoresizingFlexibleLeftMargin | 
+UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | 
+UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight | 
+UIViewAutoresizingFlexibleBottomMargin;
+
+
 @interface RevisionViewController ()
 {
     RRComplexScrollView *_mainScrollView;
@@ -42,9 +48,22 @@
                                                 self.view.bounds.size.height);
     
     _mainScrollView = [[RRComplexScrollView alloc] initWithFrame:self.view.bounds];
+    _mainScrollView.autoresizingMask = UIViewAutoresizingAll;
     _mainScrollView.dataSource = self;
     [self.view addSubview:_mainScrollView];
     [_mainScrollView reloadData];
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] 
+                                                    initWithTarget:self action:@selector(twinDoubleTap:)];
+    tapGestureRecognizer.numberOfTapsRequired = 2;
+    tapGestureRecognizer.numberOfTouchesRequired = 2;
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    [tapGestureRecognizer release];
+}
+
+- (void)twinDoubleTap:(UITapGestureRecognizer *)recognizer
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload
@@ -59,7 +78,17 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return YES;
+    if (self.revision.horizontalOrientation)
+    {
+        return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    }
+    
+    if (self.revision.horizontalMode && self.revision.horizontalPages.count != 0)
+    {
+        return YES;
+    }
+    
+    return interfaceOrientation == UIInterfaceOrientationIsPortrait(interfaceOrientation);
 }
 
 #pragma mark - RRComplexScrollViewDatasource
@@ -102,7 +131,7 @@
     if (nextPage != nil) {
         PCPageViewController *nextPageController = [[PCMagazineViewControllersFactory factory] viewControllerForPage:nextPage];
         
-        nextPageController.columnViewController = _columnViewController;
+        nextPageController.columnViewController = (PCColumnViewController *)_columnViewController;
         
         if (nextPageController.view) { // allways YES. Used to load view
             [nextPageController loadFullView];

@@ -355,22 +355,25 @@ NSString* PCNetworkServiceJSONRPCPath = @"/api/v1/jsonrpc.php";
 {
   PCRevision *currentRevision = [self revisionWithIndex:index];
   
-  if (currentRevision)
+  if (currentRevision != nil)
   {
     [self rotateInterfaceIfNeedWithRevision:currentRevision];
     
     [PCDownloadManager sharedManager].revision = currentRevision;
     [[PCDownloadManager sharedManager] startDownloading];
     
-    if (_revisionController == nil)
-    {
-            
-      _revisionController = [[RevisionViewController alloc] initWithRevision:currentRevision];
-      [self.rootViewController.navigationController pushViewController:_revisionController animated:NO];
-      
-      
-      
-    }
+    RevisionViewController *revisionViewController = [[RevisionViewController alloc] initWithRevision:currentRevision];
+    [self.rootViewController.navigationController pushViewController:revisionViewController animated:YES];
+    [revisionViewController release];
+    
+//    if (_revisionController == nil)
+//    {
+//            
+//      _revisionController = [[RevisionViewController alloc] initWithRevision:currentRevision];
+//      [self.rootViewController.navigationController pushViewController:_revisionController animated:NO];
+//      [_revisionController release];
+//      _revisionController = nil;
+//    }
     
  /*   if (_revisionViewController == nil)
     {

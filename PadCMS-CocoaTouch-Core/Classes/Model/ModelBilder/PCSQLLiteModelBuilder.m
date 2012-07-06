@@ -53,6 +53,7 @@
 
 @implementation PCSQLLiteModelBuilder
 
+#warning Maxim Pervushin. Unsafe algorithm.
 + (PCPage *)findLeftRootPageForPage:(PCPage *)page 
 {
     static NSUInteger counter = 0;
@@ -92,6 +93,7 @@
     return page.leftPage;
 }
 
+#warning Maxim Pervushin. Unsafe algorithm.
 + (PCPage *)findRightRootPageForPage:(PCPage *)page 
 {
     static NSUInteger counter = 0;
