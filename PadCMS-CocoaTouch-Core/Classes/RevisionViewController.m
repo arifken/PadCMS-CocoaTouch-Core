@@ -9,10 +9,12 @@
 #import "RevisionViewController.h"
 #import "PCMagazineViewControllersFactory.h"
 #import "PCPageViewController.h"
+#import "RRColumnViewController.h"
 
 @interface RevisionViewController ()
 {
     RRComplexScrollView *_mainScrollView;
+    RRColumnViewController *_columnViewController;
 }
 
 @end
@@ -35,6 +37,10 @@
 {
     [super viewDidLoad];
 
+    _columnViewController = [[RRColumnViewController alloc] init];
+    _columnViewController.pageSize = CGSizeMake(self.view.bounds.size.width, 
+                                                self.view.bounds.size.height);
+    
     _mainScrollView = [[RRComplexScrollView alloc] initWithFrame:self.view.bounds];
     _mainScrollView.dataSource = self;
     [self.view addSubview:_mainScrollView];
@@ -47,6 +53,8 @@
 
     [_mainScrollView removeFromSuperview];
     [_mainScrollView release];
+    
+    [_columnViewController release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -92,7 +100,9 @@
     }
     
     if (nextPage != nil) {
-        PCPageViewController *nextPageController = [[[PCMagazineViewControllersFactory factory] viewControllerForPage:nextPage] retain];
+        PCPageViewController *nextPageController = [[PCMagazineViewControllersFactory factory] viewControllerForPage:nextPage];
+        
+        nextPageController.columnViewController = _columnViewController;
         
         if (nextPageController.view) { // allways YES. Used to load view
             [nextPageController loadFullView];

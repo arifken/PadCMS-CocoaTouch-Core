@@ -1068,6 +1068,8 @@
 		ABF4D2EE1590516400DAAD0F /* PCDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF4D2E81590516400DAAD0F /* PCDownloadOperation.m */; };
 		ABF4D3031590599400DAAD0F /* PCDownloadApiClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABF4D2E31590516400DAAD0F /* PCDownloadApiClient.h */; };
 		ABF4D30415905A0100DAAD0F /* PCDownloadManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = ABF4D2E51590516400DAAD0F /* PCDownloadManager.h */; };
+		C5BD5A4315A6FA1C00DD0B41 /* RRColumnViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C5BD5A4115A6FA1C00DD0B41 /* RRColumnViewController.h */; };
+		C5BD5A4415A6FA1C00DD0B41 /* RRColumnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BD5A4215A6FA1C00DD0B41 /* RRColumnViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -2159,6 +2161,8 @@
 		ABF4D2E61590516400DAAD0F /* PCDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCDownloadManager.m; sourceTree = "<group>"; };
 		ABF4D2E71590516400DAAD0F /* PCDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCDownloadOperation.h; sourceTree = "<group>"; };
 		ABF4D2E81590516400DAAD0F /* PCDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCDownloadOperation.m; sourceTree = "<group>"; };
+		C5BD5A4115A6FA1C00DD0B41 /* RRColumnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRColumnViewController.h; sourceTree = "<group>"; };
+		C5BD5A4215A6FA1C00DD0B41 /* RRColumnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRColumnViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3390,6 +3394,8 @@
 				AB0A0F3915A4769900B9758C /* RRComplexScrollView.m */,
 				AB0A0E7815A4278E00B9758C /* RevisionViewController.h */,
 				AB0A0E7915A4278E00B9758C /* RevisionViewController.m */,
+				C5BD5A4115A6FA1C00DD0B41 /* RRColumnViewController.h */,
+				C5BD5A4215A6FA1C00DD0B41 /* RRColumnViewController.m */,
 			);
 			name = newTest;
 			sourceTree = "<group>";
@@ -3775,6 +3781,7 @@
 				ABF4D2ED1590516400DAAD0F /* PCDownloadOperation.h in Headers */,
 				AB0A0E7B15A4278E00B9758C /* RevisionViewController.h in Headers */,
 				AB0A0F3A15A4769900B9758C /* RRComplexScrollView.h in Headers */,
+				C5BD5A4315A6FA1C00DD0B41 /* RRColumnViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4195,6 +4202,7 @@
 				AB32071015927C5A0076361B /* PCStoreController.m in Sources */,
 				AB0A0E7C15A4278E00B9758C /* RevisionViewController.m in Sources */,
 				AB0A0F3B15A4769900B9758C /* RRComplexScrollView.m in Sources */,
+				C5BD5A4415A6FA1C00DD0B41 /* RRColumnViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

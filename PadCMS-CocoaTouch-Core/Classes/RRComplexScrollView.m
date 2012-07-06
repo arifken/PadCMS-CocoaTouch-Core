@@ -190,7 +190,8 @@
     
     if (initialPageController != nil) {
         
-        _currentPageController = initialPageController;
+        [_currentPageController release];
+        _currentPageController = [initialPageController retain];
         initialPageController.view.frame = self.bounds;
         [self addSubview:initialPageController.view];
         
@@ -211,7 +212,7 @@
                                           currentPageFrame.size.width, 
                                           currentPageFrame.size.height);
         
-        _nextPageController = topPageController;
+        _nextPageController = [topPageController retain];
         _nextPageController.view.frame = nextPageFrame;
         [self addSubview:_nextPageController.view];
         
@@ -229,6 +230,7 @@
         } completion:^(BOOL finished) {
             
             [_currentPageController.view removeFromSuperview];
+            [_currentPageController release];
             _currentPageController = _nextPageController;
 
         }];
@@ -250,7 +252,7 @@
                                           currentPageFrame.size.width, 
                                           currentPageFrame.size.height);
         
-        _nextPageController = bottomPageController;
+        _nextPageController = [bottomPageController retain];
         _nextPageController.view.frame = nextPageFrame;
         [self addSubview:_nextPageController.view];
         
@@ -268,6 +270,7 @@
         } completion:^(BOOL finished) {
             
             [_currentPageController.view removeFromSuperview];
+            [_currentPageController release];
             _currentPageController = _nextPageController;
             
         }];
@@ -289,7 +292,7 @@
                                                  currentPageFrame.size.width, 
                                                  currentPageFrame.size.height);
         
-        _nextPageController = leftPageController;
+        _nextPageController = [leftPageController retain];
         _nextPageController.view.frame = nextPageFrame;
         [self addSubview:_nextPageController.view];
         
@@ -307,6 +310,7 @@
         } completion:^(BOOL finished) {
             
             [_currentPageController.view removeFromSuperview];
+            [_currentPageController release];
             _currentPageController = _nextPageController;
             
         }];
@@ -328,7 +332,7 @@
                                           currentPageFrame.size.width, 
                                           currentPageFrame.size.height);
         
-        _nextPageController = rightPageController;
+        _nextPageController = [rightPageController retain];
         _nextPageController.view.frame = nextPageFrame;
         [self addSubview:_nextPageController.view];
         
@@ -346,6 +350,7 @@
         } completion:^(BOOL finished) {
             
             [_currentPageController.view removeFromSuperview];
+            [_currentPageController release];
             _currentPageController = _nextPageController;
             
         }];

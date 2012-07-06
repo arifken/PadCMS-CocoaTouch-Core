@@ -123,7 +123,7 @@
 {
     [super loadView];
     CGSize pageSize = [self.columnViewController pageSizeForViewController:self];
-    CGRect pageRect = CGRectMake(0, 0, 600, 1000);
+    CGRect pageRect = CGRectMake(0, 0, pageSize.width, pageSize.height);
     
     self.view = [[[UIView alloc] initWithFrame:pageRect] autorelease];  
     self.view.backgroundColor = [UIColor whiteColor];

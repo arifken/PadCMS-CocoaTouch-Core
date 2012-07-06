@@ -46,10 +46,93 @@
 
 + (void)addPagesFromSQLiteBaseWithPath:(NSString*)path toMagazine:(PCIssue*)magazine;
 + (PCPageElement*)buildPageElement:(FMResultSet*)element withDataBase:(FMDatabase*)dataBase;
++ (PCPage *)findLeftRootPageForPage:(PCPage *)page;
++ (PCPage *)findRightRootPageForPage:(PCPage *)page;
 
 @end
 
 @implementation PCSQLLiteModelBuilder
+
++ (PCPage *)findLeftRootPageForPage:(PCPage *)page 
+{
+    static NSUInteger counter = 0;
+    
+    if (++counter > 100) {
+        return nil;
+    }
+
+    
+    if (page == nil) {
+        return nil;
+    }
+    
+    if (page.leftPage == nil) {
+        
+        // check top pages
+        if (page.topPage != nil) {
+            PCPage *topPageRoot = [PCSQLLiteModelBuilder findLeftRootPageForPage:page.topPage];
+            
+            if (topPageRoot != nil) {
+                return topPageRoot;
+            }
+        }
+        
+        // check bottom pages
+        if (page.bottomPage != nil) {
+            PCPage *bottomPageRoot = [PCSQLLiteModelBuilder findLeftRootPageForPage:page.bottomPage];
+            
+            if (bottomPageRoot != nil) {
+                return bottomPageRoot;
+            }
+        }
+        
+        return nil;
+    }
+    
+    return page.leftPage;
+}
+
++ (PCPage *)findRightRootPageForPage:(PCPage *)page 
+{
+    static NSUInteger counter = 0;
+    
+    if (++counter > 100) {
+        return nil;
+    }
+    
+    
+    if (page == nil) {
+        return nil;
+    }
+    
+    if (page.rightPage == nil) {
+        
+        NSLog(@"page.identifier = %d", page.identifier);
+        
+        // check top pages
+        if (page.topPage != nil) {
+            PCPage *topPageRoot = [PCSQLLiteModelBuilder findRightRootPageForPage:page.topPage];
+            
+            if (topPageRoot != nil) {
+                return topPageRoot;
+            }
+        }
+        
+        // check bottom pages
+        if (page.bottomPage != nil) {
+            PCPage *bottomPageRoot = [PCSQLLiteModelBuilder findRightRootPageForPage:page.bottomPage];
+            
+            if (bottomPageRoot != nil) {
+                return bottomPageRoot;
+            }
+        }
+        
+        return nil;
+    }
+    
+    return page.rightPage;
+}
+
 
 + (void)addPagesFromSQLiteBaseWithPath:(NSString*)path toRevision:(PCRevision*)revision
 {
@@ -138,7 +221,7 @@
 	}
 	
 	
-	//Creating backward links
+	//Linking pages
 	
 	for (PCPage* page in revision.pages) {
 
@@ -151,11 +234,21 @@
         PCPage *leftPage = [revision pageForLink:[page.links objectForKey:leftConnector]];
         if (leftPage != nil) {
             [leftPage.links setObject:pageIdentifier forKey:rightConnector];
+        } else {
+            PCPage *leftRootPage = [PCSQLLiteModelBuilder findLeftRootPageForPage:page];
+            if (leftRootPage != nil) {
+                [page.links setObject:[NSNumber numberWithInt:leftRootPage.identifier] forKey:leftConnector];
+            }
         }
 
         PCPage *rightPage = [revision pageForLink:[page.links objectForKey:rightConnector]];
         if (rightPage != nil) {
             [rightPage.links setObject:pageIdentifier forKey:leftConnector];
+        } else {
+            PCPage *rightRootPage = [PCSQLLiteModelBuilder findRightRootPageForPage:page];
+            if (rightRootPage != nil) {
+                [page.links setObject:[NSNumber numberWithInt:rightRootPage.identifier] forKey:rightConnector];
+            }
         }
 
         // vertical connections
@@ -172,7 +265,7 @@
             [bottomPage.links setObject:pageIdentifier forKey:topConnector];
         }
 	}
-    
+     
     NSString* horisontalPagesQuery = [NSString stringWithFormat:@"select * from %@",PCSQLitePageHorisontalTableName];
     FMResultSet* horisontalPages = [base executeQuery:horisontalPagesQuery];
     
