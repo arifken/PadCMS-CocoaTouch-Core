@@ -406,15 +406,18 @@
                 [horizontalPagesViewControllers addObject:viewController];
             }
             
-            if ([horizontalPagesViewControllers count] > 0)
+            NSUInteger horizontalPageCount = [horizontalPagesViewControllers count];
+            if (horizontalPageCount > 0)
             {
                 PCHorizontalPageController   *first = [horizontalPagesViewControllers objectAtIndex:0];
                 [first loadFullView];
 
-                PCHorizontalPageController   *next = [horizontalPagesViewControllers objectAtIndex:1];
-                if(next)
-                {
-                    [next loadFullView];
+                if (horizontalPageCount > 1) {
+                    PCHorizontalPageController   *next = [horizontalPagesViewControllers objectAtIndex:1];
+                    if(next)
+                    {
+                        [next loadFullView];
+                    }
                 }
             }
 
